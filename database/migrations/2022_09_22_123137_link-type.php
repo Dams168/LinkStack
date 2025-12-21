@@ -165,6 +165,7 @@ class LinkType extends Migration
 // ]'
 //         ]);
 
+
         DB::table($this->TableName)->updateOrInsert([
             'typename' => 'text',
             'title' => 'Text',
@@ -201,6 +202,23 @@ class LinkType extends Migration
             'title' => 'Vcard',
             'icon' => 'bi bi-person-square',
             'description' => 'Create or upload an electronic business card.'
+        ]);
+
+        DB::table($this->TableName)->updateOrInsert([
+            'typename' => 'youtube',
+            'title' => 'YouTube Video',
+            'icon' => 'bi bi-youtube',
+            'description' => 'Add a YouTube video to your page by embedding it directly.',
+            'params' => '[{
+                "tag": "input",
+                "id": "youtube_url",
+                "for": "youtube_url",
+                "label": "YouTube URL",
+                "name": "youtube_url",
+                "class": "form-control",
+            }
+            ]'
+
         ]);
 
     }
