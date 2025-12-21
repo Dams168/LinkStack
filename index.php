@@ -5,6 +5,10 @@ use Illuminate\Http\Request;
 
 $installing_file_exists = file_exists(__DIR__ . '/INSTALLING');
 
+if(!isset($_SERVER['QUERY_STRING'])){
+    $_SERVER['QUERY_STRING'] = '';
+}
+
 if ($installing_file_exists) {
     $required_extensions = array('bcmath', 'ctype', 'curl', 'dom', 'fileinfo', 'json', 'mbstring', 'openssl', 'pcre', 'pdo', 'tokenizer', 'xml', 'iconv');
 
@@ -14,9 +18,9 @@ if ($installing_file_exists) {
         }
     }
 }
-    
+
     define('LARAVEL_START', microtime(true));
-    
+
     /*
     |--------------------------------------------------------------------------
     | Check If Application Is Under Maintenance
@@ -27,11 +31,11 @@ if ($installing_file_exists) {
     | instead of starting the framework, which could cause an exception.
     |
     */
-    
+
     if (file_exists(__DIR__.'/storage/framework/maintenance.php')) {
         require __DIR__.'/storage/framework/maintenance.php';
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | Register The Auto Loader
@@ -42,9 +46,9 @@ if ($installing_file_exists) {
     | into the script here so we don't need to manually load our classes.
     |
     */
-    
+
     require __DIR__.'/vendor/autoload.php';
-    
+
     /*
     |--------------------------------------------------------------------------
     | Run The Application
@@ -55,14 +59,13 @@ if ($installing_file_exists) {
     | to this client's browser, allowing them to enjoy our application.
     |
     */
-    
+
     $app = require_once __DIR__.'/bootstrap/app.php';
-    
+
     $kernel = $app->make(Kernel::class);
-    
+
     $response = tap($kernel->handle(
         $request = Request::capture()
     ))->send();
-    
+
     $kernel->terminate($request, $response);
-    
