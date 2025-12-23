@@ -1,0 +1,6 @@
+id: 10
+typename: youtube
+title: YouTube Video
+description: Embed YouTube video as intro block
+icon: bi bi-youtube
+custom_html: true

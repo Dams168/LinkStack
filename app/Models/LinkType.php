@@ -23,7 +23,7 @@ class LinkType extends Model
         $blocksPath = base_path('blocks/');
         $directories = (new Filesystem)->directories($blocksPath);
         $linkTypes = collect();
-    
+
     // Prepend "predefined" entry to the $linkTypes list
     $predefinedLinkType = new self([
         'id' => 1,
@@ -57,7 +57,7 @@ class LinkType extends Model
             $linkTypes->push($linkType);
         }
     }
-    
+
         $custom_order = [
             'predefined',
             'link',
@@ -67,13 +67,14 @@ class LinkType extends Model
             'heading',
             'spacer',
             'text',
+            'youtube'
         ];
-    
+
         $sorted = $linkTypes->sortBy(function ($item) use ($custom_order) {
             $index = array_search($item->typename, $custom_order);
             return $index !== false ? $index : count($custom_order);
         });
-    
+
         return $sorted->values();
     }
 
