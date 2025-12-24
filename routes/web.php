@@ -26,7 +26,7 @@ use App\Models\User;
 if(file_exists(base_path('storage/app/ISINSTALLED'))){
   // generates new APP KEY if no one is set
   if(EnvEditor::getKey('APP_KEY')==''){try{Artisan::call('key:generate');} catch (exception $e) {}}
- 
+
   // copies template meta config if none is present
   if(!file_exists(base_path("config/advanced-config.php"))){copy(base_path('storage/templates/advanced-config.php'), base_path('config/advanced-config.php'));}
  }
@@ -124,6 +124,9 @@ Route::get('/clearIcon/{id}', [UserController::class, 'clearIcon'])->name('clear
 Route::get('/studio/page/delprofilepicture', [UserController::class, 'delProfilePicture'])->name('delProfilePicture');
 Route::get('/studio/delete-user/{id}', [UserController::class, 'deleteUser'])->name('deleteUser')->middleware('verified');
 Route::post('/auth-as', [AdminController::class, 'authAs'])->name('authAs');
+
+// Toggle link enable/disable
+Route::post('/studio/toggle-link/{id}', [UserController::class, 'toggleEnableLink'])->name('toggleEnableLink')->middleware('link-id');
 
 // Catch all redirects
 Route::get('/admin/users/all', fn() => redirect(route('showUsers')));

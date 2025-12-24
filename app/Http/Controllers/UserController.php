@@ -95,18 +95,19 @@ class UserController extends Controller
         if (empty($id)) {
             return abort(404);
         }
-     
+
         $userinfo = User::select('id', 'name', 'littlelink_name', 'littlelink_description', 'theme', 'role', 'block')->where('id', $id)->first();
         $information = User::select('name', 'littlelink_name', 'littlelink_description', 'theme')->where('id', $id)->get();
-        
+
         if ($userinfo->block == 'yes') {
             return abort(404);
         }
-        
+
         $links = DB::table('links')
         ->join('buttons', 'buttons.id', '=', 'links.button_id')
         ->select('links.*', 'buttons.name') // Assuming 'links.*' to fetch all columns including 'type_params'
         ->where('user_id', $id)
+        ->where('is_enable', 1)
         ->orderBy('up_link', 'asc')
         ->orderBy('order', 'asc')
         ->get();
@@ -137,10 +138,10 @@ class UserController extends Controller
         if (empty($id)) {
             return abort(404);
         }
-     
+
         $userinfo = User::select('id', 'name', 'littlelink_name', 'littlelink_description', 'theme', 'role', 'block')->where('id', $id)->first();
         $information = User::select('name', 'littlelink_name', 'littlelink_description', 'theme')->where('id', $id)->get();
-        
+
         $links = DB::table('links')
         ->join('buttons', 'buttons.id', '=', 'links.button_id')
         ->select('links.*', 'buttons.name') // Assuming 'links.*' to fetch all columns including 'type_params'
@@ -175,7 +176,7 @@ class UserController extends Controller
         if (empty($id)) {
             return abort(404);
         }
-     
+
         if (empty($user)) {
             return abort(404);
         }
@@ -187,7 +188,7 @@ class UserController extends Controller
     public function AddUpdateLink($id = 0)
     {
         $linkData = $id ? Link::find($id) : new Link(['typename' => 'link', 'id' => '0']);
-    
+
         $data = [
             'LinkTypes' => LinkType::get(),
             'LinkData' => $linkData,
@@ -197,7 +198,7 @@ class UserController extends Controller
         ];
 
         $data['typename'] = $linkData->type ?? 'predefined';
-    
+
         return view('studio/edit-link', $data);
     }
 
@@ -208,7 +209,7 @@ class UserController extends Controller
         // $request->validate([
         //     'link' => 'sometimes|url',
         // ]);
-    
+
         // Step 2: Determine Link Type and Title
         $linkType = LinkType::findByTypename($request->typename);
         $LinkTitle = $request->title;
@@ -232,11 +233,11 @@ class UserController extends Controller
             if (file_exists($linkTypePath)) {
                 include $linkTypePath;
                 $result = handleLinkType($request, $linkType);
-                
+
                 // Extract rules and linkData from the result
                 $rules = $result['rules'];
                 $linkData = $result['linkData'];
-            
+
                 // Validate the request
                 $validator = Validator::make($request->all(), $rules);
 
@@ -250,7 +251,7 @@ class UserController extends Controller
             } else {
                 abort(404, "Link type logic not found.");
             }
-        }   
+        }
 
         // Step 4: Handle Custom Parameters
         // (Same as before)
@@ -288,7 +289,7 @@ class UserController extends Controller
                 // Add $linkType->include_libraries to the $customParams array
                 $customParams['include_libraries'] = $linkType->include_libraries;
             }
-        
+
         $filteredLinkData['type_params'] = json_encode($customParams);
 
         if ($OrigLink) {
@@ -308,7 +309,7 @@ class UserController extends Controller
         $redirectUrl = $request->input('param') == 'add_more' ? 'studio/add-link' : 'studio/links';
         return Redirect($redirectUrl)->with('success', $message);
     }
-    
+
     public function sortLinks(Request $request)
     {
         $linkOrders  = $request->input("linkOrders", []);
@@ -357,7 +358,7 @@ class UserController extends Controller
             $linkWithoutPlus = str_replace('+', '', $linkId);
             return redirect(url('info/'.$linkWithoutPlus));
         }
-    
+
         $link = Link::find($linkId);
 
         if (empty($link)) {
@@ -370,7 +371,7 @@ class UserController extends Controller
             return abort(404);
         }
 
-        Link::where('id', $linkId)->increment('click_number', 1);
+        Link::where('id', $linkId)->where('is_enable', 1)->increment('click_number', 1);
 
         $response = redirect()->away($link);
         $response->header('X-Robots-Tag', 'noindex, nofollow');
@@ -390,10 +391,10 @@ class UserController extends Controller
 
         // Decode the JSON to a PHP array
         $data = json_decode($json, true);
-        
+
         // Create a new vCard object
         $vcard = new VCard();
-        
+
         // Set the vCard properties from the $data array
         $vcard->addName($data['last_name'], $data['first_name'], $data['middle_name'], $data['prefix'], $data['suffix']);
         $vcard->addCompany($data['organization']);
@@ -407,19 +408,19 @@ class UserController extends Controller
         $vcard->addPhoneNumber($data['cell_phone'], 'CELL');
         $vcard->addAddress($data['home_address_street'], '', $data['home_address_city'], $data['home_address_state'], $data['home_address_zip'], $data['home_address_country'], 'HOME');
         $vcard->addAddress($data['work_address_street'], '', $data['work_address_city'], $data['work_address_state'], $data['work_address_zip'], $data['work_address_country'], 'WORK');
-        
+
 
         // $vcard->addPhoto(base_path('img/1.png'));
-        
+
         // Generate the vCard file contents
         $file_contents = $vcard->getOutput();
-        
+
         // Set the file headers for download
         $headers = [
             'Content-Type' => 'text/x-vcard',
             'Content-Disposition' => 'attachment; filename="contact.vcf"'
         ];
-        
+
         Link::where('id', $linkId)->increment('click_number', 1);
 
         // Return the file download response
@@ -432,7 +433,7 @@ class UserController extends Controller
     {
         $userId = Auth::user()->id;
         $data['pagePage'] = 10;
-        
+
         $data['links'] = Link::select()->where('user_id', $userId)->orderBy('up_link', 'asc')->orderBy('order', 'asc')->paginate(99999);
         return view('studio/links', $data);
     }
@@ -585,7 +586,7 @@ class UserController extends Controller
     {
         $userId = Auth::user()->id;
         $littlelink_name = Auth::user()->littlelink_name;
-    
+
         $validator = Validator::make($request->all(), [
             'littlelink_name' => [
                 'sometimes',
@@ -601,11 +602,11 @@ class UserController extends Controller
             'image.mimes' => __('messages.The image must be') . ' JPEG, JPG, PNG, webP.',
             'image.max' => __('messages.The image size should not exceed 2MB'),
         ]);
-    
+
         if ($validator->fails()) {
             return redirect('/studio/page')->withErrors($validator)->withInput();
         }
-    
+
         $profilePhoto = $request->file('image');
         $pageName = $request->littlelink_name;
         $pageDescription = strip_tags($request->pageDescription, '<a><p><strong><i><ul><ol><li><blockquote><h2><h3><h4>');
@@ -619,13 +620,13 @@ class UserController extends Controller
         if(env('HOME_URL') !== '' && $pageName != $littlelink_name && $littlelink_name == env('HOME_URL')){
             EnvEditor::editKey('HOME_URL', $pageName);
         }
-    
+
         User::where('id', $userId)->update([
             'littlelink_name' => $pageName,
             'littlelink_description' => $pageDescription,
             'name' => $name
         ]);
-    
+
         if ($request->hasFile('image')) {
 
             // Delete the user's current avatar if it exists
@@ -633,17 +634,17 @@ class UserController extends Controller
                 $avatarName = findAvatar($userId);
                 unlink(base_path($avatarName));
             }
-            
+
             $fileName = $userId . '_' . time() . "." . $profilePhoto->extension();
             $profilePhoto->move(base_path('assets/img'), $fileName);
         }
-    
+
         if ($checkmark == "on") {
             UserData::saveData($userId, 'checkmark', true);
         } else {
             UserData::saveData($userId, 'checkmark', false);
         }
-    
+
         if ($sharebtn == "on") {
             UserData::saveData($userId, 'disable-sharebtn', false);
         } else {
@@ -655,7 +656,7 @@ class UserController extends Controller
         } else {
             UserData::saveData($userId, 'links-new-tab', false);
         }
-    
+
         return Redirect('/studio/page');
     }
 
@@ -664,7 +665,7 @@ class UserController extends Controller
     {
         $userId = Auth::user()->id;
         $littlelink_name = Auth::user()->littlelink_name;
-    
+
         $request->validate([
             'image' => 'required|image|mimes:jpeg,jpg,png,webp,gif|max:2048', // Max file size: 2MB
         ], [
@@ -673,9 +674,9 @@ class UserController extends Controller
             'image.mimes' => __('messages.The image must be') . ' JPEG, JPG, PNG, webP, GIF.',
             'image.max' => __('messages.The image size should not exceed 2MB'),
         ]);
-    
+
         $customBackground = $request->file('image');
-    
+
         if ($customBackground) {
             $directory = base_path('assets/img/background-img/');
             $files = scandir($directory);
@@ -685,26 +686,26 @@ class UserController extends Controller
                     $pathinfo = $userId . "." . pathinfo($file, PATHINFO_EXTENSION);
                 }
             }
-    
+
             // Delete the user's current background image if it exists
             while (findBackground($userId) !== "error.error") {
                 $avatarName = "assets/img/background-img/" . findBackground(Auth::id());
                 unlink(base_path($avatarName));
             }
-                
+
             $fileName = $userId . '_' . time() . "." . $customBackground->extension();
             $customBackground->move(base_path('assets/img/background-img/'), $fileName);
-    
+
             if (extension_loaded('imagick')) {
                 $imagePath = base_path('assets/img/background-img/') . $fileName;
                 $image = new \Imagick($imagePath);
                 $image->stripImage();
                 $image->writeImage($imagePath);
             }
-    
+
             return redirect('/studio/theme');
         }
-    
+
         return redirect('/studio/theme')->with('error', 'Please select a valid image file.');
     }
 
@@ -775,7 +776,7 @@ class UserController extends Controller
                 $filePath = $themesPath . '/' . $basename;
 
                 if (!is_dir($filePath)) {
-                        
+
                     try {
                         File::delete($filePath);
                     } catch (exception $e) {}
@@ -896,7 +897,7 @@ class UserController extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
         $links = Link::where('user_id', $userId)->get();
-        
+
         if (!$user) {
             // handle the case where the user is null
             return response()->json(['message' => 'User not found'], 404);
@@ -922,12 +923,12 @@ class UserController extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
         $links = Link::where('user_id', $userId)->get();
-    
+
         if (!$user) {
             // handle the case where the user is null
             return response()->json(['message' => 'User not found'], 404);
         }
-    
+
         $userData = $user->toArray();
         $userData['links'] = $links->toArray();
 
@@ -935,11 +936,11 @@ class UserController extends Controller
             $imagePath = base_path(findAvatar($userId));
             $imageData = base64_encode(file_get_contents($imagePath));
             $userData['image_data'] = $imageData;
-    
+
             $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
             $userData['image_extension'] = $imageExtension;
         }
-    
+
         $domain = $_SERVER['HTTP_HOST'];
         $date = date('Y-m-d_H-i-s');
         $fileName = "user_data-$domain-$date.json";
@@ -948,9 +949,9 @@ class UserController extends Controller
             'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
         ];
         return response()->json($userData, 200, $headers);
-    
+
         return back();
-    }    
+    }
 
     public function importData(Request $request)
     {
@@ -962,7 +963,7 @@ class UserController extends Controller
             $file = $request->file('import');
             $jsonString = $file->get();
             $userData = json_decode($jsonString, true);
-    
+
             // Update the authenticated user's profile data if defined in the JSON file
             $user = auth()->user();
             if (isset($userData['name'])) {
@@ -991,21 +992,21 @@ class UserController extends Controller
                     $avatarName = findAvatar(Auth::id());
                     unlink(base_path($avatarName));
                 }
-                
+
                 // Save the image to the correct path with the correct file name and extension
                 $filename = $user->id . '.' . $userExtension;
                 file_put_contents(base_path('assets/img/' . $filename), $imageData);
-                
+
                 // Update the user's image field with the correct file name
                 $user->image = $filename;
                 }
             }
 
             $user->save();
-    
+
             // Delete all links for the authenticated user
             Link::where('user_id', $user->id)->delete();
-    
+
             // Loop through each link in $userData and create a new link for the user
             foreach ($userData['links'] as $linkData) {
 
@@ -1018,17 +1019,17 @@ class UserController extends Controller
                 }
 
                 $newLink = new Link();
-    
+
                 // Copy over the link data from $linkData to $newLink
                 $newLink->button_id = $linkData['button_id'];
                 $newLink->link = $linkData['link'];
-                
+
                 // Sanitize the title
                 if ($linkData['button_id'] == 93) {
                     $sanitizedText = strip_tags($linkData['title'], '<a><p><strong><i><ul><ol><li><blockquote><h2><h3><h4>');
                     $sanitizedText = preg_replace("/<a([^>]*)>/i", "<a $1 rel=\"noopener noreferrer nofollow\">", $sanitizedText);
                     $sanitizedText = strip_tags_except_allowed_protocols($sanitizedText);
-                
+
                     $newLink->title = $sanitizedText;
                 } else {
                     $newLink->title = $linkData['title'];
@@ -1041,10 +1042,10 @@ class UserController extends Controller
                 $newLink->custom_icon = $linkData['custom_icon'];
                 $newLink->type = $linkData['type'];
                 $newLink->type_params = $linkData['type_params'];
-    
+
                 // Set the user ID to the current user's ID
                 $newLink->user_id = $user->id;
-    
+
                 // Save the new link to the database
                 $newLink->save();
             }
@@ -1053,16 +1054,16 @@ class UserController extends Controller
             return redirect('studio/profile')->with('error', __('messages.An error occurred while updating your profile.'));
         }
     }
-    
+
 
     // Hanle reports
     function report(Request $request)
     {
         $formData = $request->all();
-    
+
         try {
             Mail::to(env('ADMIN_EMAIL'))->send(new ReportSubmissionMail($formData));
-            
+
             return redirect('report')->with('success', __('messages.report_success'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('messages.report_error'));
@@ -1128,5 +1129,12 @@ class UserController extends Controller
             'link' => $link,
             'title' => $icon
         ]);
+    }
+
+    public function toggleEnableLink($id){
+        $link = Link::findorfail($id);
+        $link->is_enable = !$link->is_enable;
+        $link->save();
+        return back();
     }
 }
