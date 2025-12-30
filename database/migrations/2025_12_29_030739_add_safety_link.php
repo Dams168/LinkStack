@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('links', function (Blueprint $table) {
-            $table->enum('safety_status',['block','safe','warning'])->default('safe');
+            $table->enum('safety_status',['blocked','safe','warning'])->default('safe');
             $table->integer('safety_score')->default(0);
         });
     }

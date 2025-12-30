@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReportSubmissionMail;
 use GeoSot\EnvEditor\Facades\EnvEditor;
+use App\Services\LinkSafetyService;
 
 use Auth;
 use DB;
@@ -226,8 +227,22 @@ class UserController extends Controller
                 'title' => $LinkTitle ?? $button?->alt,
                 'user_id' => Auth::user()->id,
                 'button_id' => $button?->id ?? $button_id,
-                'type' => $request->typename // Save the link type
+                'type' => $request->typename,
             ];
+
+            if (!empty($LinkURL)) {
+
+                $safety = app(LinkSafetyService::class)->check($LinkURL);
+
+                if ($safety['status'] === 'blocked') {
+                    return back()->withErrors([
+                        'link' => 'Link diblokir dan tidak dapat disimpan: '
+                            . implode(', ', $safety['reasons']),
+                    ])->withInput();
+                }
+                $linkData['safety_status'] = $safety['status'];
+                $linkData['safety_score']  = $safety['score'];
+            }
         } else {
             $linkTypePath = base_path("blocks/{$linkType->typename}/handler.php");
             if (file_exists($linkTypePath)) {
@@ -245,7 +260,6 @@ class UserController extends Controller
                 if ($validator->fails()) {
                     return back()->withErrors($validator)->withInput();
                 }
-
                 $linkData['button_id'] = $linkData['button_id'] ?? 1; // Set 'button_id' unless overwritten by handleLinkType
                 $linkData['type'] = $linkType->typename; // Ensure 'type' is included in $linkData
             } else {

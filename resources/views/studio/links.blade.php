@@ -107,7 +107,15 @@ if (isset($_COOKIE['LinkCount'])) {
                                                             <span class="bg-soft-secondary" style="border: 1px solid #d0d4d7 !important;border-radius:5px;width:25px!important;height:25px!important;"><img style="max-width:15px !important;" alt="button-icon" height="15" class="m-1 " src="{{ asset('\/assets/linkstack/icons\/') . $buttonName }}.svg "></span>
                                                             @endif
 
-                                                            {{strip_tags($link->title,'')}}</span>
+                                                            {{strip_tags($link->title,'')}}
+                                                            @if($link->safety_status === 'warning')
+                                                                <i class="bi bi-exclamation-triangle-fill text-warning ms-1"
+                                                                title="Link terdeteksi warning"></i>
+                                                            @elseif($link->safety_status === 'safe')
+                                                                <i class="bi bi-check-circle-fill text-success ms-1"
+                                                                title="Link aman"></i>
+                                                            @endif
+                                                        </span>
 
                                                         @if(!empty($link->link) and $button->name != "vcard")
                                                         <br>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LinkValidationController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LinkTypeViewController;
 use App\Http\Controllers\PagesController;
@@ -127,6 +128,9 @@ Route::post('/auth-as', [AdminController::class, 'authAs'])->name('authAs');
 
 // Toggle link enable/disable
 Route::post('/studio/toggle-link/{id}', [UserController::class, 'toggleEnableLink'])->name('toggleEnableLink')->middleware('link-id');
+
+//Link validation route
+Route::post('/studio/link/validate', [LinkValidationController::class, 'validateLink'])->name('studio.link.validate');
 
 // Catch all redirects
 Route::get('/admin/users/all', fn() => redirect(route('showUsers')));
