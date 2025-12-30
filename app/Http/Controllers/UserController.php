@@ -556,6 +556,17 @@ class UserController extends Controller
             $link = rtrim($link1, "/ ");
         else
         $link = $link1;
+
+
+        $safety = app(LinkSafetyService::class)->check($link);
+
+        if ($safety['status'] === 'blocked') {
+            return back()->withErrors([
+                'link' => 'Link diblokir dan tidak dapat disimpan: '
+                    . implode(', ', $safety['reasons']),
+            ])->withInput();
+        }
+
         $title = $request->title;
         $order = $request->order;
         $button = $request->button;
