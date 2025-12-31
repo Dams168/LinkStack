@@ -2,119 +2,109 @@
 
 return [
 
-    'bandcamp' => [
-        'domains' => ['bandcamp.com'],
-        'error' => 'Invalid Bandcamp URL',
-    ],
-
-    'coffee' => [
-        'domains' => ['buymeacoffee.com'],
-        'error' => 'Invalid Buy Me a Coffee URL',
-    ],
-
-    'cashapp' => [
-        'domains' => ['cash.app'],
-        'error' => 'Invalid Cash App URL',
-    ],
-
-    'discord' => [
-        'domains' => ['discord.gg', 'discord.com'],
-        'error' => 'Invalid Discord URL',
-    ],
-
-    'facebook' => [
-        'domains' => ['facebook.com', 'fb.com'],
-        'error' => 'Invalid Facebook URL',
-    ],
-
-    'github' => [
-        'domains' => ['github.com'],
-        'error' => 'Invalid GitHub URL',
-    ],
-
-    'gitlab' => [
-        'domains' => ['gitlab.com'],
-        'error' => 'Invalid GitLab URL',
-    ],
-
-    'instagram' => [
-        'domains' => ['instagram.com'],
-        'error' => 'Invalid Instagram URL',
-    ],
-
-    'linkedin' => [
-        'domains' => ['linkedin.com'],
-        'error' => 'Invalid LinkedIn URL',
-    ],
-
-    'medium' => [
-        'domains' => ['medium.com'],
-        'error' => 'Invalid Medium URL',
-    ],
-
-    'paypal' => [
-        'domains' => ['paypal.com', 'paypal.me'],
-        'error' => 'Invalid PayPal URL',
-    ],
-
-    'pinterest' => [
-        'domains' => ['pinterest.com'],
-        'error' => 'Invalid Pinterest URL',
-    ],
-
-    'reddit' => [
-        'domains' => ['reddit.com'],
-        'error' => 'Invalid Reddit URL',
-    ],
-
-    'snapchat' => [
-        'domains' => ['snapchat.com'],
-        'error' => 'Invalid Snapchat URL',
-    ],
-
-    'soundcloud' => [
-        'domains' => ['soundcloud.com'],
-        'error' => 'Invalid SoundCloud URL',
-    ],
-
-    'spotify' => [
-        'domains' => ['spotify.com'],
-        'error' => 'Invalid Spotify URL',
-    ],
-
-    'telegram' => [
-        'domains' => ['t.me', 'telegram.me', 'telegram.org'],
-        'error' => 'Invalid Telegram URL',
-    ],
-
-    'tiktok' => [
-        'domains' => ['tiktok.com'],
-        'error' => 'Invalid TikTok URL',
-    ],
-
-    'twitch' => [
-        'domains' => ['twitch.tv'],
-        'error' => 'Invalid Twitch URL',
-    ],
-
-    'twitter' => [
-        'domains' => ['twitter.com', 'x.com'],
-        'error' => 'Invalid X / Twitter URL',
-    ],
-
-    'youtube' => [
-        'domains' => ['youtube.com', 'youtu.be'],
-        'error' => 'Invalid YouTube URL',
-    ],
-
-    'whatsapp' => [
-        'domains' => ['wa.me', 'whatsapp.com'],
-        'error' => 'Invalid WhatsApp URL',
-    ],
-
-    'wordpress' => [
-        'domains' => ['wordpress.com'],
-        'error' => 'Invalid WordPress URL',
-    ],
+    'bandcamp' => ['domains' => ['bandcamp.com'], 'error' => 'Invalid Bandcamp URL'],
+    'coffee' => ['domains' => ['buymeacoffee.com'], 'error' => 'Invalid Buy Me a Coffee URL'],
+    'cashapp' => ['domains' => ['cash.app'], 'error' => 'Invalid Cash App URL'],
+    'discord' => ['domains' => ['discord.gg', 'discord.com'], 'error' => 'Invalid Discord URL'],
+    'facebook' => ['domains' => ['facebook.com', 'fb.com'], 'error' => 'Invalid Facebook URL'],
+    'figma' => ['domains' => ['figma.com'], 'error' => 'Invalid Figma URL'],
+    'github' => ['domains' => ['github.com'], 'error' => 'Invalid GitHub URL'],
+    'gitlab' => ['domains' => ['gitlab.com'], 'error' => 'Invalid GitLab URL'],
+    'goodreads' => ['domains' => ['goodreads.com'], 'error' => 'Invalid Goodreads URL'],
+    'instagram' => ['domains' => ['instagram.com'], 'error' => 'Invalid Instagram URL'],
+    'kit' => ['domains' => ['kit.co'], 'error' => 'Invalid Kit URL'],
+    'linkedin' => ['domains' => ['linkedin.com'], 'error' => 'Invalid LinkedIn URL'],
+    'mastodon' => ['domains' => ['mastodon.social'], 'error' => 'Invalid Mastodon URL'],
+    'medium' => ['domains' => ['medium.com'], 'error' => 'Invalid Medium URL'],
+    'messenger' => ['domains' => ['messenger.com'], 'error' => 'Invalid Messenger URL'],
+    'patreon' => ['domains' => ['patreon.com'], 'error' => 'Invalid Patreon URL'],
+    'paypal' => ['domains' => ['paypal.com'], 'error' => 'Invalid PayPal URL'],
+    'pinterest' => ['domains' => ['pinterest.com'], 'error' => 'Invalid Pinterest URL'],
+    'reddit' => ['domains' => ['reddit.com'], 'error' => 'Invalid Reddit URL'],
+    'signal' => ['domains' => ['signal.me'], 'error' => 'Invalid Signal URL'],
+    'skoob' => ['domains' => ['skoob.com.br'], 'error' => 'Invalid Skoob URL'],
+    'snapchat' => ['domains' => ['snapchat.com'], 'error' => 'Invalid Snapchat URL'],
+    'soundcloud' => ['domains' => ['soundcloud.com'], 'error' => 'Invalid SoundCloud URL'],
+    'spotify' => ['domains' => ['spotify.com'], 'error' => 'Invalid Spotify URL'],
+    'steam' => ['domains' => ['steampowered.com', 'steamcommunity.com'], 'error' => 'Invalid Steam URL'],
+    'telegram' => ['domains' => ['t.me', 'telegram.me'], 'error' => 'Invalid Telegram URL'],
+    'tiktok' => ['domains' => ['tiktok.com'], 'error' => 'Invalid TikTok URL'],
+    'tumblr' => ['domains' => ['tumblr.com'], 'error' => 'Invalid Tumblr URL'],
+    'twitch' => ['domains' => ['twitch.tv'], 'error' => 'Invalid Twitch URL'],
+    'twitter' => ['domains' => ['twitter.com', 'x.com'], 'error' => 'Invalid X URL'],
+    'venmo' => ['domains' => ['venmo.com'], 'error' => 'Invalid Venmo URL'],
+    'vimeo' => ['domains' => ['vimeo.com'], 'error' => 'Invalid Vimeo URL'],
+    'whatsapp' => ['domains' => ['wa.me', 'whatsapp.com'], 'error' => 'Invalid WhatsApp URL'],
+    'wordpress' => ['domains' => ['wordpress.com'], 'error' => 'Invalid WordPress URL'],
+    'xing' => ['domains' => ['xing.com'], 'error' => 'Invalid Xing URL'],
+    'youtube' => ['domains' => ['youtube.com', 'youtu.be'], 'error' => 'Invalid YouTube URL'],
+    'trello' => ['domains' => ['trello.com'], 'error' => 'Invalid Trello URL'],
+    'amazon' => ['domains' => ['amazon.com'], 'error' => 'Invalid Amazon URL'],
+    'appstore' => ['domains' => ['apps.apple.com'], 'error' => 'Invalid App Store URL'],
+    'apple-music' => ['domains' => ['music.apple.com'], 'error' => 'Invalid Apple Music URL'],
+    'apple-podcasts' => ['domains' => ['podcasts.apple.com'], 'error' => 'Invalid Apple Podcasts URL'],
+    'briar' => ['domains' => ['briarproject.org'], 'error' => 'Invalid Briar URL'],
+    'castopod' => ['domains' => ['castopod.org'], 'error' => 'Invalid Castopod URL'],
+    'codepen' => ['domains' => ['codepen.io'], 'error' => 'Invalid CodePen URL'],
+    'codeberg' => ['domains' => ['codeberg.org'], 'error' => 'Invalid Codeberg URL'],
+    'cryptpad' => ['domains' => ['cryptpad.fr'], 'error' => 'Invalid CryptPad URL'],
+    'dev-to' => ['domains' => ['dev.to'], 'error' => 'Invalid Dev.to URL'],
+    'deezer' => ['domains' => ['deezer.com'], 'error' => 'Invalid Deezer URL'],
+    'epic-games' => ['domains' => ['epicgames.com'], 'error' => 'Invalid Epic Games URL'],
+    'etsy' => ['domains' => ['etsy.com'], 'error' => 'Invalid Etsy URL'],
+    'firefox' => ['domains' => ['mozilla.org'], 'error' => 'Invalid Firefox URL'],
+    'flickr' => ['domains' => ['flickr.com'], 'error' => 'Invalid Flickr URL'],
+    'funkwhale' => ['domains' => ['funkwhale.audio'], 'error' => 'Invalid Funkwhale URL'],
+    'f-droid' => ['domains' => ['f-droid.org'], 'error' => 'Invalid F-Droid URL'],
+    'itchio' => ['domains' => ['itch.io'], 'error' => 'Invalid Itch.io URL'],
+    'humble-bundle' => ['domains' => ['humblebundle.com'], 'error' => 'Invalid Humble Bundle URL'],
+    'kickstarter' => ['domains' => ['kickstarter.com'], 'error' => 'Invalid Kickstarter URL'],
+    'ko-fi' => ['domains' => ['ko-fi.com'], 'error' => 'Invalid Ko-fi URL'],
+    'lemmy' => ['domains' => ['lemmy.world'], 'error' => 'Invalid Lemmy URL'],
+    'letterboxd' => ['domains' => ['letterboxd.com'], 'error' => 'Invalid Letterboxd URL'],
+    'liberapay' => ['domains' => ['liberapay.com'], 'error' => 'Invalid Liberapay URL'],
+    'matrix' => ['domains' => ['matrix.to'], 'error' => 'Invalid Matrix URL'],
+    'misskey' => ['domains' => ['misskey.io'], 'error' => 'Invalid Misskey URL'],
+    'notion' => ['domains' => ['notion.so'], 'error' => 'Invalid Notion URL'],
+    'odysee' => ['domains' => ['odysee.com'], 'error' => 'Invalid Odysee URL'],
+    'openstreetmap' => ['domains' => ['openstreetmap.org'], 'error' => 'Invalid OpenStreetMap URL'],
+    'owncast' => ['domains' => ['owncast.online'], 'error' => 'Invalid Owncast URL'],
+    'peertube' => ['domains' => ['peertube.tv'], 'error' => 'Invalid PeerTube URL'],
+    'pixelfed' => ['domains' => ['pixelfed.social'], 'error' => 'Invalid Pixelfed URL'],
+    'piwigo' => ['domains' => ['piwigo.org'], 'error' => 'Invalid Piwigo URL'],
+    'playstore' => ['domains' => ['play.google.com'], 'error' => 'Invalid Play Store URL'],
+    'pleroma' => ['domains' => ['pleroma.social'], 'error' => 'Invalid Pleroma URL'],
+    'producthunt' => ['domains' => ['producthunt.com'], 'error' => 'Invalid Product Hunt URL'],
+    'session' => ['domains' => ['getsession.org'], 'error' => 'Invalid Session URL'],
+    'strava' => ['domains' => ['strava.com'], 'error' => 'Invalid Strava URL'],
+    'unity' => ['domains' => ['unity.com'], 'error' => 'Invalid Unity URL'],
+    'unraid' => ['domains' => ['unraid.net'], 'error' => 'Invalid Unraid URL'],
+    'untappd' => ['domains' => ['untappd.com'], 'error' => 'Invalid Untappd URL'],
+    'upptime' => ['domains' => ['upptime.js.org'], 'error' => 'Invalid Upptime URL'],
+    'vrchat' => ['domains' => ['vrchat.com'], 'error' => 'Invalid VRChat URL'],
+    'youtube-music' => ['domains' => ['music.youtube.com'], 'error' => 'Invalid YouTube Music URL'],
+    'all-inkl' => ['domains' => ['all-inkl.com'], 'error' => 'Invalid All-Inkl URL'],
+    'bookwyrm' => ['domains' => ['bookwyrm.social'], 'error' => 'Invalid BookWyrm URL'],
+    'apple-books' => ['domains' => ['books.apple.com'], 'error' => 'Invalid Apple Books URL'],
+    'scribd' => ['domains' => ['scribd.com'], 'error' => 'Invalid Scribd URL'],
+    'linkstack' => ['domains' => ['linkstack.org'], 'error' => 'Invalid LinkStack URL'],
+    'picarto' => ['domains' => ['picarto.tv'], 'error' => 'Invalid Picarto URL'],
+    'trakt' => ['domains' => ['trakt.tv'], 'error' => 'Invalid Trakt URL'],
+    'last-fm' => ['domains' => ['last.fm'], 'error' => 'Invalid Last.fm URL'],
+    'itaku' => ['domains' => ['itaku.ee'], 'error' => 'Invalid Itaku URL'],
+    'furaffinity' => ['domains' => ['furaffinity.net'], 'error' => 'Invalid FurAffinity URL'],
+    'bluesky' => ['domains' => ['bsky.app'], 'error' => 'Invalid Bluesky URL'],
+    'firefish' => ['domains' => ['firefish.social'], 'error' => 'Invalid Firefish URL'],
+    'streams' => ['domains' => ['streams.video'], 'error' => 'Invalid Streams URL'],
+    'pronounspage' => ['domains' => ['pronouns.page'], 'error' => 'Invalid Pronouns.page URL'],
+    'booth' => ['domains' => ['booth.pm'], 'error' => 'Invalid BOOTH URL'],
+    'hearthisat' => ['domains' => ['hearthis.at'], 'error' => 'Invalid HearThis.at URL'],
+    'throne' => ['domains' => ['throne.me'], 'error' => 'Invalid Throne URL'],
+    'behance' => ['domains' => ['behance.net'], 'error' => 'Invalid Behance URL'],
+    'gdrive' => ['domains' => ['drive.google.com'], 'error' => 'Invalid Google Drive URL'],
+    'friendica' => ['domains' => ['friendi.ca'], 'error' => 'Invalid Friendica URL'],
+    'simplex' => ['domains' => ['simplex.chat'], 'error' => 'Invalid SimpleX URL'],
+    'xbox' => ['domains' => ['xbox.com'], 'error' => 'Invalid Xbox URL'],
+    'threads' => ['domains' => ['threads.net'], 'error' => 'Invalid Threads URL'],
 
 ];
