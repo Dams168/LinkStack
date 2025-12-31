@@ -132,6 +132,9 @@ Route::post('/studio/toggle-link/{id}', [UserController::class, 'toggleEnableLin
 //Link validation route
 Route::post('/studio/link/validate', [LinkValidationController::class, 'validateLink'])->name('studio.link.validate');
 
+//Link URL predefined site validation route
+Route::post('/studio/link/validate-url', [LinkValidationController::class, 'validateUrlPredefinedSite'])->name('studio.link.validate-url');
+
 // Catch all redirects
 Route::get('/admin/users/all', fn() => redirect(route('showUsers')));
 Route::get('/studio', fn() => redirect(url('dashboard')));

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ReportSubmissionMail;
 use GeoSot\EnvEditor\Facades\EnvEditor;
 use App\Services\LinkSafetyService;
+use App\Services\LinkUrlValidateService;
 
 use Auth;
 use DB;
@@ -230,8 +231,21 @@ class UserController extends Controller
                 'type' => $request->typename,
             ];
 
-            if (!empty($LinkURL)) {
+            if ($request->typename === 'predefined') {
 
+                $validation = app(LinkUrlValidateService::class)
+                    ->validate($request->button, $request->link);
+
+                if (!$validation['valid']) {
+                    return back()
+                        ->withErrors([
+                            'link' => $validation['message'],
+                        ])
+                        ->withInput();
+                }
+            }
+
+            if (!empty($LinkURL)) {
                 $safety = app(LinkSafetyService::class)->check($LinkURL);
 
                 if ($safety['status'] === 'blocked') {
@@ -557,6 +571,18 @@ class UserController extends Controller
         else
         $link = $link1;
 
+        if ($request->typename === 'predefined') {
+            $validation = app(LinkUrlValidateService::class)
+                ->validate($request->button, $request->link);
+
+            if (!$validation['valid']) {
+                return back()
+                    ->withErrors([
+                        'link' => $validation['message'],
+                    ])
+                    ->withInput();
+            }
+        }
 
         $safety = app(LinkSafetyService::class)->check($link);
 
