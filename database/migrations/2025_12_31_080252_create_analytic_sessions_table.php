@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('analytic_sessions', function (Blueprint $table) {
             $table->id();
-            $table->uuid('visitor_uuid')->unique();
-            $table->timestamp('started_at');
+            $table->uuid('visitor_uuid');
+            $table->timestamp('started_at')->nullable();
             $table->timestamp('last_activity_at')->nullable();
             $table->integer('page_count')->default(0);
 
