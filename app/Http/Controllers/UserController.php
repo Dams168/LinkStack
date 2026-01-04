@@ -679,15 +679,17 @@ class UserController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-
+            $avatar = findAvatar($userId);
             // Delete the user's current avatar if it exists
-            while (findAvatar($userId) !== "error.error") {
-                $avatarName = findAvatar($userId);
-                unlink(base_path($avatarName));
-            }
+            if ($avatar && $avatar !== "error.error") {
+                $avatarPath = public_path($avatar);
 
-            $fileName = $userId . '_' . time() . "." . $profilePhoto->extension();
-            $profilePhoto->move(base_path('assets/img'), $fileName);
+                if (file_exists($avatarPath)) {
+                    unlink($avatarPath);
+                }
+            }
+            $fileName = $userId . '_' . time() . '.' . $profilePhoto->extension();
+            $profilePhoto->move(public_path('assets/img'), $fileName);
         }
 
         if ($checkmark == "on") {
