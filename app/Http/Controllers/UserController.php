@@ -940,12 +940,15 @@ class UserController extends Controller
     public function delProfilePicture()
     {
         $userId = Auth::user()->id;
+        $avatar = findAvatar($userId);
+            // Delete the user's current avatar if it exists
+            if ($avatar && $avatar !== "error.error") {
+                $avatarPath = public_path($avatar);
 
-        // Delete the user's current avatar if it exists
-        while (findAvatar($userId) !== "error.error") {
-            $avatarName = findAvatar($userId);
-            unlink(base_path($avatarName));
-        }
+                if (file_exists($avatarPath)) {
+                    unlink($avatarPath);
+                }
+            }
 
         return back();
     }
