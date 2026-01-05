@@ -740,10 +740,15 @@ class UserController extends Controller
                 }
             }
 
-            // Delete the user's current background image if it exists
-            while (findBackground($userId) !== "error.error") {
-                $avatarName = "assets/img/background-img/" . findBackground(Auth::id());
-                unlink(base_path($avatarName));
+            // // Delete the user's current background image if it exists
+            $currentBackground = findBackground(Auth::id());
+
+            if ($currentBackground !== "error.error") {
+                $path = base_path("assets/img/background-img/" . $currentBackground);
+
+                if (file_exists($path)) {
+                    unlink($path);
+                }
             }
 
             $fileName = $userId . '_' . time() . "." . $customBackground->extension();
@@ -761,16 +766,17 @@ class UserController extends Controller
 
         return redirect('/studio/theme')->with('error', 'Please select a valid image file.');
     }
-
-    //Delete custom background image
     public function removeBackground()
     {
-        $userId = Auth::user()->id;
+        $userId = Auth::id();
+        $background = findBackground($userId);
 
-        // Delete the user's current background image if it exists
-        while (findBackground($userId) !== "error.error") {
-            $avatarName = "assets/img/background-img/" . findBackground(Auth::id());
-            unlink(base_path($avatarName));
+        if ($background && $background !== 'error.error') {
+            $path = base_path('assets/img/background-img/' . $background);
+
+            if (file_exists($path)) {
+                unlink($path);
+            }
         }
 
         return back();
