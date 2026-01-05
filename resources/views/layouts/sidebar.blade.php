@@ -30,11 +30,13 @@ $usrhandl = Auth::user()->littlelink_name;
   @endphp
 
   <!-- Favicon -->
-  @if(file_exists(base_path("assets/linkstack/images/").findFile('favicon')))
+  {{-- @if(file_exists(base_path("assets/linkstack/images/").findFile('favicon')))
   <link rel="icon" type="image/png" href="{{ asset('assets/linkstack/images/'.findFile('favicon')) }}">
   @else
   <link rel="icon" type="image/svg+xml" href="{{ asset('assets/linkstack/images/logo.svg') }}">
-  @endif
+  @endif --}}
+
+  <link rel="icon" type="image/png" href="{{ asset('assets/img/logo-p79.png') }}">
 
   <!-- Library / Plugin Css Build -->
   <link rel="stylesheet" href="{{asset('assets/css/core/libs.min.css')}}" />
