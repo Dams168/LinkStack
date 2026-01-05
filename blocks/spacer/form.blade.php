@@ -1,8 +1,12 @@
-<label for='title' class='form-label'>{{__('messages.Spacing height')}}</label>
-{{-- <input type='number' name='height' value="{{$params->height ?? ''}}" class='form-control w-25' /> --}}
+<div class="form-group-col">
+    <label for='title' class='form-label'>{{__('messages.Spacing height')}}</label>
+    {{-- <input type='number' name='height' value="{{$params->height ?? ''}}" class='form-control w-25' /> --}}
 
-<input type="range" class="custom-range" id="height" name='height' value={{$params->height??5}} oninput="this.nextElementSibling.value = this.value"><output class='font-weight-bold'>{{$params->height??5}}</output>
+    <input type="number" min="0" name="height" value={{$params->height??5}} class="form-control">
 
-
-
-
+    {{-- <div class="d-flex gap-2 align-items-center">
+        <input type="range" class="custom-range" id="height" name='height' value={{$params->height??5}}
+        oninput="this.nextElementSibling.value = this.value">
+        <output class='font-weight-bold'>{{$params->height??5}}</output>
+    </div> --}}
+</div>

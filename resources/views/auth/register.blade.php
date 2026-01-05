@@ -1,133 +1,67 @@
-<?php
-$pages = DB::table('pages')->get();
-foreach($pages as $page)
-{
-	//Gets value from database
-}
-?>
+@extends('layouts.auth')
 
-<x-guest-layout>
-@include('layouts.lang')
+@section('content')
 
-    <x-auth-card>
-        <x-slot name="logo"></x-slot>
+@include('components.auth-hero')
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+<form method="POST" action="{{ route('register') }}" class="auth-form">
+  @csrf
+  @if ($errors->any())
+  <div class="form-error">
+    @foreach ($errors->all() as $error)
+    <p>{{ $error }}</p>
+    @endforeach
+  </div>
+  @endif
+  <div class="form-header">
+    <h3 class="form-title">Create Your Account</h3>
+    <p class="form-desc">Join thousands of users and get your bio link ready in seconds.</p>
+  </div>
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+  <div class="form-group-col">
+    <label class="form-label" for="name">Display Name</label>
+    <input class="form-control" type="text" name="name" id="name" placeholder="Fill your name" aria-describedby="name"
+      :value="old('name')" required autofocus>
+  </div>
 
-        <div class="container mt-5 w-100">
-          <div class="card p-5">
-              <a href="{{ url('') }}" class="d-flex align-items-center mb-3">
-                <!--Logo start-->
-                <div class="logo-main">
-                    @if(file_exists(base_path("assets/linkstack/images/").findFile('avatar')))
-                    <div class="logo-normal">
-                      <img class="img logo" src="{{ asset('assets/linkstack/images/'.findFile('avatar')) }}" style="width:auto;height:30px;">
-                  </div>
-                  <div class="logo-mini">
-                    <img class="img logo" src="{{ asset('assets/linkstack/images/'.findFile('avatar')) }}" style="width:auto;height:30px;">
-                  </div>
-                    @else
-                    <div class="logo-normal">
-                      <img class="img logo" type="image/svg+xml" src="{{ asset('assets/linkstack/images/logo.svg') }}" width="30px" height="30px">
-                  </div>
-                  <div class="logo-mini">
-                    <img class="img logo" type="image/svg+xml" src="{{ asset('assets/linkstack/images/logo.svg') }}" width="30px" height="30px">
-                  </div>
-                    @endif
-                    </div>
-                    <!--logo End-->
-                <h4 class="logo-title ms-3">{{env('APP_NAME')}}</h4>
-              </a>
-              <h2 class="mb-2 text-center">{{__('messages.Sign Up')}}</h2>
-              <p class="text-center">{{__('messages.Register to stay connected')}}.</p>
-              <form method="POST" action="{{ route('register') }}">
-                @csrf
-                <div class="row">
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label for="name" class="form-label">{{__('messages.Display Name')}}</label>
-                        <input type="text" class="form-control" id="name" name="name" aria-describedby="name" placeholder=" " :value="old('name')" required autofocus >
-                      </div>
-                    </div>
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label for="littlelink_name" class="form-label">{{__('messages.Page URL')}}</label>
-                        <div class="input-group mb-3 has-validation">
-                          <span class="input-group-text" id="basic-addon3">{{str_replace(['http://', 'https://'], '', url(''))}}/@</span>
-                          <input type="littlelink_name" class="form-control" id="littlelink_name" name="littlelink_name" aria-describedby="littlelink_name" placeholder=" " :value="old('littlelink_name')" required autofocus >
-                        </div>
-                      </div>
-                    </div>
-                    @include('auth.url-validation')           
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label for="email" class="form-label">{{__('messages.Email')}}</label>
-                        <input type="email" class="form-control" id="email" name="email" aria-describedby="email" placeholder=" " :value="old('email')" required autofocus >
-                      </div>
-                    </div>
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label for="password" class="form-label">{{__('messages.Password')}}</label>
-                        <input type="password" class="form-control" id="password" aria-describedby="password" placeholder=" " name="password" required autocomplete="new-password" />
-                      </div>
-                    </div>
-                    <div class="col-lg-12 d-flex justify-content-between">
-                      <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" name="remember" id="remember_me">
-                        <label class="form-check-label" for="remember_me">{{__('messages.Remember Me')}}</label>
-                      </div>
-                    </div>
-                  </div>                  
-                <div class="d-flex justify-content-center">
-                  <button id="submit-btn" type="submit" class="btn btn-primary">{{__('messages.Sign Up')}}</button>
-                </div>
-                @if(env('ENABLE_SOCIAL_LOGIN') == 'true')
-                <p class="text-center my-3">{{__('messages.or sign in with other accounts?')}}</p>
-                <div class="d-flex justify-content-center">
-                  <ul class="list-group list-group-horizontal list-group-flush">
-                    @if(!empty(env('FACEBOOK_CLIENT_ID')))
-                    <li class="list-group-item border-0 pb-0">
-                      <a href="{{ route('social.redirect','facebook') }}">
-                        <i class="bi bi-facebook"></i>
-                      </a>
-                    </li>
-                    @endif
-                    @if(!empty(env('TWITTER_CLIENT_ID')))
-                    <li class="list-group-item border-0 pb-0">
-                      <a href="{{ route('social.redirect','twitter') }}">
-                        <i class="bi bi-twitter"></i>
-                      </a>
-                    </li>
-                    @endif
-                    @if(!empty(env('GOOGLE_CLIENT_ID')))
-                    <li class="list-group-item border-0 pb-0">
-                      <a href="{{ route('social.redirect','google') }}">
-                        <i class="bi bi-google"></i>
-                      </a>
-                    </li>
-                    @endif
-                    @if(!empty(env('GITHUB_CLIENT_ID')))
-                    <li class="list-group-item border-0 pb-0">
-                      <a href="{{ route('social.redirect','github') }}">
-                        <i class="bi bi-github"></i>
-                      </a>
-                    </li>
-                    @endif
-                  </ul>
-                </div>
-                @else
-                <br>
-                @endif
-                <p class="mt-3 text-center">
-                  {{__('messages.Already have an account?')}} <a href="{{ route('login') }}" class="text-underline">{{__('messages.Click here to sign in')}}.</a>
-                </p>
-              </form>
-            </div>
-          </div>          
+  <div class="form-group-col">
+    <label class="form-label" for="littlelink_name">Page Url</label>
+    <div class="input-group">
+      <span class="input-group-text">{{str_replace(['http://', 'https://'], '', url(''))}}/@</span>
+      <input class="input-group-field form-control" type="text" name="littlelink_name" id="littlelink_name"
+        placeholder="Create a unique name" aria-describedby="littlelink_name" :value="old('littlelink_name')" required
+        autofocus>
+    </div>
+  </div>
 
-    </x-auth-card>
-</x-guest-layout>
+  @include('auth.url-validation')
+
+  <div class="form-group-col">
+    <label class="form-label" for="email">Email</label>
+    <input class="form-control" type="email" name="email" id="email" placeholder="name@gmail.com" required
+      aria-describedby="email" :value="old('email')" required autofocus>
+  </div>
+
+  <div class="form-group-col">
+    <label class="form-label" for="password ">Password</label>
+    <input class="form-control" type="password" name="password" id="password" placeholder="Create a strong password"
+      aria-describedby="password" name="password" required autocomplete="new-password" required>
+    <p class="form-info"><i class="bi bi-info-circle-fill"></i> <span>Use at leat 8
+        characters.</span></p>
+  </div>
+
+  <div class="form-action">
+    <div class="form-group-row">
+      <input type="checkbox" name="remember" id="remember_me" class="form-control">
+      <label class="form-label" for="remember_me">Remember Me</label>
+    </div>
+  </div>
+
+  <button class="btn btn-primary btn-lg" type="submit">Signup</button>
+
+  <div class="form-footer">
+    <p class="form-cto-label">Already have an account</p>
+    <a class="form-cto-link" href="{{ route('login') }}">Log In</a>
+  </div>
+</form>
+@endsection

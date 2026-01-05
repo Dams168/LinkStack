@@ -1,57 +1,47 @@
-<label for="title" class="form-label">
+<div class="form-group-col">
+    <label for='title' class="form-label">{{__('messages.Title')}}</label>
+    <input type='text' name='title' value='{{$title}}' required class="form-control" />
+</div>
+
+<div class="form-group-col">
+    <label for='title' class="form-label">{{__('messages.URL')}}</label>
+    <input type='url' name='link' value='{{$link}}' required class="form-control" />
+</div>
+
+<div class="form-group-row">
+    <input type="checkbox" class="form-control" value='1' {{((isset($params->GetSiteIcon) ?
+    boolval($params->GetSiteIcon) : false) ? 'checked': '') }} name='GetSiteIcon' id="GetSiteIcon" @if($button_id ==
+    2)checked @endif>
+
+    <label class="custom-control-label" for="GetSiteIcon">{{__('messages.Show website icon on button')}}</label>
+</div>
+
+{{-- <label for="title" class="form-label">
     {{ __('messages.Title') }}
 </label>
-<input
-    type="text"
-    name="title"
-    value="{{ $title ?? '' }}"
-    class="form-control"
-    required
-/>
+<input type="text" name="title" value="{{ $title ?? '' }}" class="form-control" required />
 
 <label for="link" class="form-label mt-3">
     {{ __('messages.URL') }}
 </label>
-<input
-    type="url"
-    name="link"
-    id="customLinkInput"
-    value="{{ $link ?? '' }}"
-    class="form-control"
-    required
-    autocomplete="off"
-/>
+<input type="url" name="link" id="customLinkInput" value="{{ $link ?? '' }}" class="form-control" required
+    autocomplete="off" />
 
-<div
-    id="linkSafetyFeedback"
-    class="mt-2 small"
-></div>
+<div id="linkSafetyFeedback" class="mt-2 small"></div>
 
-<input
-    type="hidden"
-    name="link_safety_status"
-    id="linkSafetyStatus"
-/>
+<input type="hidden" name="link_safety_status" id="linkSafetyStatus" />
 
 <div class="custom-control custom-checkbox m-2">
-    <input
-        type="checkbox"
-        class="custom-control-input"
-        value="1"
-        name="GetSiteIcon"
-        id="GetSiteIcon"
-        {{ ((isset($params->GetSiteIcon) ? boolval($params->GetSiteIcon) : false) ? 'checked' : '') }}
-        @if(isset($button_id) && $button_id == 2) checked @endif
+    <input type="checkbox" class="custom-control-input" value="1" name="GetSiteIcon" id="GetSiteIcon" {{
+        ((isset($params->GetSiteIcon) ? boolval($params->GetSiteIcon) : false) ? 'checked' : '') }}
+    @if(isset($button_id) && $button_id == 2) checked @endif
     >
-    <label
-        class="custom-control-label"
-        for="GetSiteIcon"
-    >
+    <label class="custom-control-label" for="GetSiteIcon">
         {{ __('messages.Show website icon on button') }}
     </label>
 </div>
 <script>
-(function () {
+    (function () {
 
     const input        = document.getElementById('customLinkInput');
     const feedback     = document.getElementById('linkSafetyFeedback');
@@ -134,4 +124,4 @@
     });
 
 })();
-</script>
+</script> --}}
