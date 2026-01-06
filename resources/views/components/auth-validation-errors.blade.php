@@ -1,15 +1,18 @@
 @props(['errors'])
 
 @if ($errors->any())
-    <div {{ $attributes }}>
-        <div class="font-medium text-red-600">
-            {{ __('Whoops! Something went wrong.') }}
-        </div>
+<div {{ $attributes }} class="alert-message error">
 
-        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+    <p class="status-title">
+        <i class="bi bi-x-circle-fill"></i>
+        Failed!
+    </p>
+
+    <ul class="status-message">
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+
+</div>
 @endif

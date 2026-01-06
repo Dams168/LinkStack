@@ -63,5 +63,11 @@
     <p class="form-cto-label">Already have an account</p>
     <a class="form-cto-link" href="{{ route('login') }}">Log In</a>
   </div>
+
+  <!-- Session Status -->
+  <x-auth-session-status :status="session('status')" />
+
+  <!-- Validation Errors -->
+  <x-auth-validation-errors :errors="$errors" />
 </form>
 @endsection
